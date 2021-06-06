@@ -11,18 +11,37 @@
 
 // reducer returns a state object that is the same exact type
 // as the original initial state object
-import { FETCH_POST } from '../Types'
+import { FETCH_POST_REQUEST, FETCH_POST_SUCCESS, FETCH_POST_ERROR } from '../Types'
 
 const initialState = {
-    posts: []
+    posts: [],
+    loading: false,
+    error: null
 }   
 
 export const postReducer = (state = initialState, action) => {
     switch(action.type) {
-        case FETCH_POST:
+        case FETCH_POST_REQUEST:
             return {
-                ...state
+                ...state,
+                loading: true,
+                posts: [],
+                error: null
             }
+        case FETCH_POST_SUCCESS:
+            return {
+                ...state,
+                posts: action.payload,
+                loading: false,
+                error: null
+            }
+        case FETCH_POST_ERROR:
+                return {
+                    ...state,
+                    posts: [],
+                    loading: false,
+                    error: action.payload
+                }
         default:
             return state
     }
